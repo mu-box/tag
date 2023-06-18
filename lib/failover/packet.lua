@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   15 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Cauterize = require('cauterize')
 local Name = require('cauterize/lib/name')
@@ -36,7 +28,7 @@ function Packet:_init(host,port,node,skip)
     port or gossip_config.port)
   self.max_packets_per_interval = utl.config_watch(self:current(),
     'max_packets_per_interval', 'update_config')
-  
+
   self.nodes = {}
   local nodes = utl.config_watch(self:current(), 'nodes_in_cluster',
     'update_nodes')
@@ -44,7 +36,7 @@ function Packet:_init(host,port,node,skip)
     node.name = name
     self:add_node(node)
   end
-  
+
   self.nodes_in_last_interval = {}
   self.responses_sent = 0
   if not skip then
@@ -135,7 +127,7 @@ function Packet.enabled:notify()
 
   self:generate_new_packet()
 
-  while packets_sent_in_current_interval < 
+  while packets_sent_in_current_interval <
       self.max_packets_per_interval do
 
     -- if we ran out of nodes, lets grab a new list of nodes

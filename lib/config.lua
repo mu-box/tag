@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   2 June 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Cauterize = require('cauterize')
 local Name = require('cauterize/lib/name')
@@ -33,7 +25,7 @@ function Config:get(key)
 end
 
 function Config:set(key, value)
-  if self.config[key] ~= value then 
+  if self.config[key] ~= value then
     self.config[key] = value
     return {true,false}
   end

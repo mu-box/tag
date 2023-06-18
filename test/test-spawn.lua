@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   15 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local hrtime = require('uv').hrtime
 local Cauterize = require('cauterize')
@@ -15,7 +7,7 @@ local Pid = require('cauterize/lib/pid')
 local Process = Cauterize.Process
 local Reactor = Cauterize.Reactor
 require('tap')(function (test)
-  
+
   test('create a process',function()
     local ran = false
     local pid = Process:new(function(env)
@@ -60,8 +52,8 @@ require('tap')(function (test)
       time = (hrtime() - start)/1000000
       t(9)
     end)
-    
-    
+
+
     assert(order[#order] == 9,'only got to step #' .. order[#order])
     for idx,step in pairs({0,1,4,2,5,6,3,7,8,9}) do
       assert(order[idx] == step,'step '..step..' was ran out of order')

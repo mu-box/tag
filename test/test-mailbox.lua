@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   15 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Mailbox = require('cauterize/lib/mailbox')
 require('tap')(function (test)
@@ -21,7 +13,7 @@ require('tap')(function (test)
       assert(mailbox:recv('test')[1] == "test","fourth message was wrong")
       assert(mailbox:recv()[1] == "other","fifth message was wrong")
     end)
-    
+
     coroutine.resume(thread)
 
     for _,msg in pairs({{'asdf'},{'qwerty'},{'test'}}) do
@@ -39,6 +31,6 @@ require('tap')(function (test)
         assert(err == 'cannot resume dead coroutine',err)
       end
     until not alive
-    
+
   end)
 end)

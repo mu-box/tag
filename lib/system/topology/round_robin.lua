@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   15 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 -- round_robin evenly divides the data over all nodes in the cluster.
 -- when one node is down, the data is divided over the remaining nodes
@@ -26,7 +18,7 @@ return function(data,order,state,id)
   local node_idx = count + 1 -- really gets set in the for loop
   local node_failover_idx = 0
   local is_alive = {}
-  
+
   -- count how many servers are alive, count how many servers have
   -- failed before we find the id so that we can shift the id down
   -- when we are doing failover for other nodes
@@ -57,7 +49,7 @@ return function(data,order,state,id)
     elseif not is_alive[real_idx] then
       -- if the other node is down, and we are responsible for it then
       -- add it in
-      if ((failover_idx - 1) % alive_count) + 1 == 
+      if ((failover_idx - 1) % alive_count) + 1 ==
           node_failover_idx then
         add[#add + 1] = data[i]
       end

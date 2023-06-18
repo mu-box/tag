@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   15 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Cauterize = require('cauterize')
 local Name = require('cauterize/lib/name')
@@ -38,8 +30,8 @@ typedef struct {
 } element_t;
 ]]
 -- we really want to use set/get methods
-element = ffi.metatype("element_t", 
-  {__index = 
+element = ffi.metatype("element_t",
+  {__index =
     {get_data = function(self)
       local pointer = ffi.cast('intptr_t',self)
       pointer = pointer + 28
@@ -80,15 +72,15 @@ function Basic:_init()
   -- create the tables that we use
   local txn = splode(Env.txn_begin,
     'unable to begin create transaction', self.env, nil, 0)
-  
+
   -- objects stores the actual objects
-  self.objects = splode(DB.open, 'unable to create objects', 
+  self.objects = splode(DB.open, 'unable to create objects',
     txn, "objects", DB.MDB_CREATE)
 
   -- buckets stores the keys that are in a bucket. this is used to
   -- enforce order and for listing a bucket
   -- MDB_DUPSORT because we store multiple values under one key
-  self.buckets = splode(DB.open, 'unable to create buckets', 
+  self.buckets = splode(DB.open, 'unable to create buckets',
     txn, "buckets", DB.MDB_DUPSORT + DB.MDB_CREATE)
 
   -- we commit the transaction so that our tables are created
@@ -110,7 +102,7 @@ function Basic:enter(bucket, key, value, parent)
     local combo = bucket .. ':' .. key
 
     -- begin a transaction
-    txn = splode(Env.txn_begin, 
+    txn = splode(Env.txn_begin,
       'store unable to create a transaction', self.env, parent, 0)
 
     -- preserve the creation date if this is an update
@@ -131,7 +123,7 @@ function Basic:enter(bucket, key, value, parent)
     -- the data, 1 for the NULL terminator
     -- MDB_RESERVE returns a pointer to the memory reserved and stored
     -- for the key combo
-    local data = splode(Txn.put, 
+    local data = splode(Txn.put,
       'unable to store value for ' .. combo, txn ,self.objects ,combo,
       24 + 4 + #value + 1, Txn.MDB_RESERVE)
 
@@ -153,12 +145,12 @@ function Basic:enter(bucket, key, value, parent)
     ffi.copy(ffi.cast('void *', pos), value, container.len)
 
     -- commit the transaction
-    err = xsplode(0, Txn.commit, 
+    err = xsplode(0, Txn.commit,
       'unable to commit transaction for' .. combo, txn)
 
     -- clear out becuase it is invalid
     txn = nil
-    
+
     -- we return the time that it was updated. The caller already has
     -- the data that was sent
     return container.update
@@ -184,10 +176,10 @@ function Basic:remove(bucket, key, parent)
     assert(key,'unable to remove without a key')
     -- we have a combo key for storing the actual data
     local combo = bucket .. ':' .. key
-    
+
     -- begin a transaction, store it in txn so it can be aborted later
-    txn = splode(Env.txn_begin, 
-      'store unable to create a transaction ' .. combo, self.env, 
+    txn = splode(Env.txn_begin,
+      'store unable to create a transaction ' .. combo, self.env,
       parent, 0)
 
     -- delete the object value
@@ -195,7 +187,7 @@ function Basic:remove(bucket, key, parent)
       combo)
 
     -- delete the object key
-    xsplode(0, Txn.del, 'unable to delete object key ' .. combo, txn, 
+    xsplode(0, Txn.del, 'unable to delete object key ' .. combo, txn,
       self.buckets, bucket, key)
 
     -- commit all changes
@@ -213,40 +205,40 @@ end
 
 -- fetch a value from the database
 function Basic:fetch(bucket, key)
-  
+
   local cursor, txn = nil, nil
-  -- should either be {true, container}, {true, {container}} or 
+  -- should either be {true, container}, {true, {container}} or
   -- {false, error}
   local ret = {pcall(function()
     assert(bucket,'unable to list without a bucket')
     -- fetching is a read only transaction, hence MDB_RDONLY
-    txn = splode(Env.txn_begin, 'unable to create txn ' .. bucket, 
+    txn = splode(Env.txn_begin, 'unable to create txn ' .. bucket,
       self.env, nil, Txn.MDB_RDONLY)
 
     if key then
       -- we are looking up a single value
       local combo = bucket .. ":" .. key
-      return splode(Txn.get, 
-        'does not exist ' .. combo, txn, self.objects, combo, 
+      return splode(Txn.get,
+        'does not exist ' .. combo, txn, self.objects, combo,
         "element_t*")
 
     else
       -- we are doing a list.
-      cursor = splode(Cursor.open, 
-        'unable to create cursor for list' .. bucket, txn, 
+      cursor = splode(Cursor.open,
+        'unable to create cursor for list' .. bucket, txn,
         self.buckets)
 
-      local b_id, id = xsplode(2, Cursor.get, 
-        'unable to set the initial cursor ' .. bucket, cursor, bucket, 
+      local b_id, id = xsplode(2, Cursor.get,
+        'unable to set the initial cursor ' .. bucket, cursor, bucket,
         Cursor.MDB_SET_KEY)
 
       local acc = {}
       repeat
         local combo = bucket .. ":" .. id
-        
+
         -- get the value for the current key
-        local container = splode(Txn.get, 
-          'unable to get value for key ' .. combo, txn, self.objects, 
+        local container = splode(Txn.get,
+          'unable to get value for key ' .. combo, txn, self.objects,
           combo, "element_t*")
         acc[#acc + 1] = container
 
@@ -254,7 +246,7 @@ function Basic:fetch(bucket, key)
         -- errors when out of data points
         b_id, id = Cursor.get(cursor, key, Cursor.MDB_NEXT_DUP)
       until b_id ~= bucket
-      
+
       return acc
     end
   end)}

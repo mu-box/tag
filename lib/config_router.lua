@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   2 June 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Config = require('./config')
 local Link = require('cauterize/lib/link')
@@ -56,7 +48,7 @@ function ConfigRouter:set(key, value)
   else
     response = Config.set(self,key,value)
   end
-   
+
   if response[1] == true and response[2] == true then
     self:broadcast(key, value)
   end

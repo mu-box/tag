@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   15 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local uv = require('uv')
 local ffi = require('ffi')
@@ -20,7 +12,7 @@ local Name = require('cauterize/lib/name')
 local Group = require('cauterize/lib/group')
 
 local System = Cauterize.Fsm:extend()
-local topologies = 
+local topologies =
   {choose_one = true
   ,nothing = true
   ,replicated = true
@@ -41,7 +33,7 @@ function System:_init(name,system)
   Name.register(self:current(), 'system-' .. name)
   Group.join(self:current(),'systems')
 
-  
+
   self.apply_timeout = nil
 
   -- the the system needs to set it self up, it will have an install
@@ -93,7 +85,7 @@ function System:regen()
     self:cancel_timer(self.apply_timeout[1])
     self:respond(self.apply_timeout[2],{false,'inturrupted'})
   end
-  
+
   -- then run the plan after a set amount of time has passed
   -- we do this incase multiple changes in nodes being up/down come in
   -- a small amount of time and can be coalesed into a single change
@@ -136,11 +128,11 @@ function System:run(name, elem)
     end
     log.info('going to run', script, data)
     local io_pipe = uv.new_pipe(false)
-    
+
     local proc = self:wrap(uv.spawn, script,
-      {args = 
+      {args =
         {data,'testing'}
-      ,stdio = 
+      ,stdio =
         {io_pipe,io_pipe,2}})
     assert(self:wrap(uv.read_start, io_pipe) == io_pipe)
     local code
@@ -184,7 +176,7 @@ local function sort_nodes(nodes,system)
   return function (node1,node2)
     local node1_priority
     local node2_priority
-    
+
     local priorities = nodes[node1].priority
     if priorities then
       node1_priority = priorities[system]

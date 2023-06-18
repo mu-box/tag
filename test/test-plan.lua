@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   20 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Plan = require('../lib/system/plan')
 require('tap')(function (test)
@@ -16,7 +8,7 @@ require('tap')(function (test)
     hash = hash + 1
     return {hash = hash}
   end
-  
+
   test('plans can be created from an array', function()
     local plan = Plan:new({h(),h(),h()})
     local add, remove = plan:changes()

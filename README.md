@@ -26,7 +26,7 @@ Lets see how this works in real life. Say you now work at FooBar co., and have a
 curl -L https://github.com/luvit/lit/raw/master/get-lit.sh | sh
 
 ## install tag
-lit make pagodabox/tag && cp ./tag /usr/bin/tag
+lit make microbox/tag && cp ./tag /usr/bin/tag
 ```
 
 So you install Tag on 3 nodes in your cluster to ensure that it can make a quorum decision (n/2+1), and you start to write a config file. Lets say that the three nodes are: Primary at 10.0.0.1, Secondary at 10.0.0.2, and Tertiary at 10.0.0.3. The nginx ip failover config you wrote would look like this so far (but you already knew that):
@@ -92,7 +92,7 @@ tag -server -config-json '
     ,"topology": "round_robin"}}}'
 ```
 
-Primary and Secondary will now start the 'FooBar co. NGINX' system and decide which node should have the Virtual Ip: '10.0.10.1'. When one node goes offline, the other node will add '10.0.10.1' to its interface and things will continue to run smoothly. Now FooBar co., and more importantly you, can sleep well at night knowing that the production api for ordering widgets is being taken care of by Tag. If it does go offline the only question you will need to ask is: 
+Primary and Secondary will now start the 'FooBar co. NGINX' system and decide which node should have the Virtual Ip: '10.0.10.1'. When one node goes offline, the other node will add '10.0.10.1' to its interface and things will continue to run smoothly. Now FooBar co., and more importantly you, can sleep well at night knowing that the production api for ordering widgets is being taken care of by Tag. If it does go offline the only question you will need to ask is:
 
 #### *"who just deployed to prod?"*
 
@@ -115,4 +115,4 @@ You can read about specific features of Tag here:
 
 ##And as always, fork and contribute!
 
-Copyright (c) 2015 Pagoda Box, Inc.
+Copyright (c) 2015 Nanobox, Inc.

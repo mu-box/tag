@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   15 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Cauterize = require('cauterize')
 local Name = require('cauterize/lib/name')
@@ -24,7 +16,7 @@ function Node:_init(config)
     'quorum_update')
   self.node_wait_for_response_intreval = util.config_watch(self:current(),
     'node_wait_for_response_interval', 'udpate_config')
-  
+
   self.reports = {}
   self.timers = {}
   self.name = config.name
@@ -79,8 +71,8 @@ function Node.up:suspicious(who)
 end
 
 function Node:set_remote_report(who,node_is_up)
-  if node_is_up and 
-      self.suspicious_reporter and who == 
+  if node_is_up and
+      self.suspicious_reporter and who ==
       self.suspicious_reporter then
     self.suspicious_reporter = nil
   end

@@ -1,20 +1,12 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   15 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local hrtime = require('uv').hrtime
 require('tap')(function (test)
-  
+
   test('can we pass 11 million messages per second?',function()
     -- uncomment if you want to test speed
-    
+
     -- -- local thread = coroutine.create(function()
     --  for i=1,100000000 do
     --    coroutine.yield()

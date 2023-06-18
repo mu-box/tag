@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   22 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Cauterize = require('cauterize')
 local log = require('logger')
@@ -19,7 +11,7 @@ log.add_logger('debug','store',p)
 local Reactor = Cauterize.Reactor
 Reactor.continue = true -- don't exit when nothing is left
 require('tap')(function (test)
-  
+
   test('store can start and stop correctly',function()
     local store_started = false
     local store_stopped = false
@@ -37,7 +29,7 @@ require('tap')(function (test)
       p('going to call',pid)
       store_stopped = Cauterize.Server.call(pid,'stop')
     end)
-    
+
     assert(store_started,"store did not start")
     assert(store_stopped,"store did not stop")
   end)

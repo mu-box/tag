@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   27 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 
 local Object = require('core').Object
@@ -29,7 +21,7 @@ function Plan:next(on)
     return one.hash < two.hash
   end)
 
-  
+
   self.add = {}
   self.remove = {}
   local index = 1
@@ -45,12 +37,12 @@ function Plan:next(on)
       -- if we run out of data, then we don't need to compare anymore
       break
     elseif self.on[index].hash > on[lidx].hash then
-      -- we need to add data points that are members of on and 
+      -- we need to add data points that are members of on and
       -- not members of self.on
       self.add[#self.add +1] = on[lidx]
       lidx = lidx + 1
     elseif self.on[index].hash < on[lidx].hash then
-      -- we need to remove data points that are members of self.on and 
+      -- we need to remove data points that are members of self.on and
       -- not members of on
       self.remove[#self.remove +1] = self.on[index]
       index = index + 1

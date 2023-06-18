@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   21 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Cauterize = require('cauterize')
 local log = require('logger')
@@ -21,7 +13,7 @@ function ConfigLoader:_init()
 
   -- load all the systems from the config file into the db, but only
   -- if a system with the same name does not exist
-  local systems = utl.config_get('systems')  
+  local systems = utl.config_get('systems')
   for name,system in pairs(systems) do
     local data = system.data
     system.data = nil

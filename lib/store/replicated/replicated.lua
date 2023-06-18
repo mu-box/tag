@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   15 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Store = require('../basic/basic')
 local Replicated = Store:extend()
@@ -27,12 +19,12 @@ function Replicated:init()
     'unable to begin create transaction', self.env, nil, 0)
   -- replication stores remote node states, so that on disconnects
   -- replication can resume from where it left off
-  self.replication = splode(DB.open, 'unable to create replication', 
+  self.replication = splode(DB.open, 'unable to create replication',
     txn, "replication", DB.MDB_CREATE)
 
   -- logs records write operations on this node until not needed
   -- MDB_INTEGERKEY because we use timestamps
-  self.logs = splode(DB.open, 'unable to create logs', 
+  self.logs = splode(DB.open, 'unable to create logs',
     txn, "logs", DB.MDB_CREATE + DB.MDB_INTEGERKEY)
 
 

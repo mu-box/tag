@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   21 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Cauterize = require('cauterize')
 local uv = require('uv')
@@ -18,7 +10,7 @@ local Config = require('../lib/config')
 local Reactor = Cauterize.Reactor
 Reactor.continue = true -- don't exit when nothing is left
 require('tap')(function (test)
-  
+
   test('udp sockets can correctly start up',function()
     local Test = Packet:extend()
     local got_packet = false
@@ -36,7 +28,7 @@ require('tap')(function (test)
 
     Reactor:enter(function(env)
     	Config:new(env:current())
-      local node1 = 
+      local node1 =
         {name = 'n1'}
       local node1 = Node:new(env:current(), node1)
 
@@ -44,13 +36,13 @@ require('tap')(function (test)
       Test.call(pid,'enable')
       local udp = uv.new_udp()
       uv.udp_bind(udp, host, 1235)
-      
+
       uv.udp_send(udp, "testing", host, port)
       env:recv(nil,100)
 
       uv.udp_send(udp, "testing1", host, port)
       env:recv(nil,100)
-      
+
       uv.close(udp)
       Test.call(pid,'stop')
     end)
@@ -86,8 +78,8 @@ require('tap')(function (test)
         	tostring(i) .. "a" .. tostring(i), true)
         Packet.call(packets[i],'remove_node',{name = 'n1'})
         nodes[i] = {}
-        for j = 0, 2 do 
-          local opts = 
+        for j = 0, 2 do
+          local opts =
             {quorum = 2,name = i.."a"..j,host = host, port = port + j}
           nodes[i][j] = Node:new(env:current(), opts)
           opts.name = tostring(j)
@@ -97,10 +89,10 @@ require('tap')(function (test)
       end
 
       env:recv(nil,4000)
-      
+
       for i = 0, 2 do
         Packet.call(packets[i],'disable')
-        for j = 0, 2 do 
+        for j = 0, 2 do
           local state = Node.call(nodes[i][j],'get_state')
           Node.cast(nodes[i][j],'_stop')
           nodes[i][j] = state

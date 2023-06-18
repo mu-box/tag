@@ -1,13 +1,5 @@
 -- -*- mode: lua; tab-width: 2; indent-tabs-mode: 1; st-rulers: [70] -*-
 -- vim: ts=4 sw=4 ft=lua noet
-----------------------------------------------------------------------
--- @author Daniel Barney <daniel@pagodabox.com>
--- @copyright 2015, Pagoda Box, Inc.
--- @doc
---
--- @end
--- Created :   21 May 2015 by Daniel Barney <daniel@pagodabox.com>
-----------------------------------------------------------------------
 
 local Cauterize = require('cauterize')
 local Server = require('cauterize/tree/server')
@@ -15,7 +7,7 @@ local Server = require('cauterize/tree/server')
 local Reactor = Cauterize.Reactor
 Reactor.continue = true -- don't exit when nothing is left
 require('tap')(function (test)
-  
+
   test('servers correctly respond to cast and call',function()
     local Test = Server:extend()
     local test1_ran = false
@@ -34,7 +26,7 @@ require('tap')(function (test)
       Server.call(pid,'stop')
       stop_errored = false
     end)
-    
+
     assert(test1_ran,"call did not work")
     assert(test2_ran,"cast did not work")
     assert(test1_ret == true,"call did not return a value")
